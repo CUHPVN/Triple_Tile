@@ -10,6 +10,7 @@ public class TripleTileUIManager : MonoBehaviour
 {
     public static TripleTileUIManager Instance;
     [SerializeField] private TMP_Text scoreText;
+    [SerializeField] private TMP_Text undoText;
     [SerializeField] private TMP_Text shuffleText;
     [SerializeField] private TMP_Text wizardText;
     [SerializeField] private Transform winPanel;
@@ -30,8 +31,15 @@ public class TripleTileUIManager : MonoBehaviour
     public void UpdateUI()
     {
         scoreText.text = TripleManager.Instance.GetScore().ToString();
+        undoText.text = TripleManager.Instance.GetUndo().ToString();
         shuffleText.text = TripleManager.Instance.GetShuffle().ToString();
         wizardText.text = TripleManager.Instance.GetWizard().ToString();
+    }
+    public void Undo()
+    {
+        if (TripleManager.Instance.GetUndo() <= 0 || HandManager.Instance.GetUndoCount() == 0) return;
+        TripleManager.Instance.DecUndo();
+        GameObject.FindFirstObjectByType<HandManager>().RemoveUndo();
     }
     public void Shuffle()
     {

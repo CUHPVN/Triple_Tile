@@ -5,6 +5,11 @@ using System.Linq;
 using UnityEngine;
 using static Unity.Burst.Intrinsics.X86.Avx;
 
+public struct UndoTile
+{
+    public int id;
+    public NodeTile node;
+}
 public class HandManager : MonoBehaviour
 {
     public static HandManager Instance { get; private set; }
@@ -13,6 +18,7 @@ public class HandManager : MonoBehaviour
     [SerializeField] private BonusHandNodeTile bonusHandNodeTile;
     [SerializeField] private List<HandNodeTile> tiles = new();
     [SerializeField] private Queue<int> queue = new();
+    [SerializeField] public List<UndoTile> undos = new();
     private int maxHandSize = 7;
     private List<int> tileCount = new();
 
@@ -173,6 +179,40 @@ public class HandManager : MonoBehaviour
             }
         }
     }
+    public void AddUndo(int id, NodeTile node)
+    {
+        undos.Add(new UndoTile { id = id, node = node });
+    }
+    public void RemoveUndo()
+    {
+        if (undos.Count == 0) return;
+        UndoTile undo = undos[undos.Count - 1];
+        GameObject.FindFirstObjectByType<LevelManager>().Add(undo.node);
+        for (int i = tiles.Count - 1; i >= 0; i--)
+        {
+            if (tiles[i].GetID() == undo.id)
+            {
+                tiles[i].SetID(0);
+                tileCount[undo.id]--;
+                undo.node.posToMove = tiles[i].transform.position;
+                break;
+            }
+        }
+        undo.node.MoveUp();
+        
+        undos.RemoveAt(undos.Count - 1);
+    }
+    public int GetUndoCount()
+    {
+        return undos.Count;
+    }
+    public void PrintUndo()
+    {
+        foreach (var undo in undos)
+        {
+            Debug.Log(undo.id);
+        }
+    }
     public void CheckTriple()
     {
         for (int i = 0; i < 20; i++)
@@ -201,6 +241,7 @@ public class HandManager : MonoBehaviour
             if (tiles[i].GetID() == id)
             {
                 tiles[i].Remove(0);
+                undos.RemoveAll(undo => undo.id == id);
                 tmp++;
                 TripleManager.Instance.AddScore(1);
                 if (tmp == 3)

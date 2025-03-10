@@ -11,6 +11,7 @@ public class TripleManager : MonoBehaviour
     [SerializeField] private PopOnEnable pop;
     [SerializeField] private int score=0;
     [SerializeField] private int multi=1;
+    [SerializeField] private int undoCount = 0;
     [SerializeField] private int wizardCount = 0;
     [SerializeField] private int shuffleCount = 0;
     [SerializeField] private int currentLevel = 0;
@@ -43,6 +44,7 @@ public class TripleManager : MonoBehaviour
     {
         score = 0;
         multi = GameManager.Instance.GetMulti();
+        undoCount = GameManager.Instance.GetUndoCount();
         wizardCount = GameManager.Instance.GetWizardCount();
         shuffleCount = GameManager.Instance.GetShuffleCount();
         currentLevel = GameManager.Instance.GetCurLvl();
@@ -83,6 +85,14 @@ public class TripleManager : MonoBehaviour
     public int GetMulti()
     {
         return multi;
+    }
+    public int GetUndo()
+    {
+        return undoCount;
+    }
+    public void DecUndo()
+    {
+        undoCount--;
     }
     public int GetWizard()
     {

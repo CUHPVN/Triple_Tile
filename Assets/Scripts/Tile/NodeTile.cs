@@ -10,10 +10,16 @@ public class NodeTile : MonoBehaviour
     private bool canClick = false;
     private bool isClick = false;
     public Vector3 posToMove=Vector3.zero;
+    public Vector3 tilePos;
     public Vector3 localPos;
 
     private void Awake()
     {
+    }
+    private void LoadComponent()
+    {
+        canClick = true;
+        isClick = false;
     }
     private void OnEnable()
     {
@@ -51,7 +57,20 @@ public class NodeTile : MonoBehaviour
     public void Move()
     {
         isClick = true;
+        tilePos = transform.position;
         transform.DOMove(posToMove, 0.25f).SetEase(Ease.InOutQuad);
-        transform.DOScale(Vector3.zero, 0.5f).OnComplete(() => Destroy(gameObject));
+        transform.DOScale(Vector3.zero, 0.5f).OnComplete(() => gameObject.SetActive(false));
+    }
+    public void MoveUp()
+    {
+        gameObject.SetActive(true);
+        LoadComponent();
+        transform.position = posToMove;
+        transform.DOMove(tilePos, 0.25f);
+        transform.DOScale(Vector3.one, 0.5f);
+    }
+    public void DebugTest()
+    {
+        Debug.Log(this.ID);
     }
 }

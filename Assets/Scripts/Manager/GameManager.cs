@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private int score = 0;
     [SerializeField] private int multi = 1;
+    [SerializeField] private int undoCount = 0;
     [SerializeField] private int wizardCount = 0;
     [SerializeField] private int shuffleCount = 0;
     [SerializeField] private int currentLevel = 0;
@@ -47,6 +48,18 @@ public class GameManager : MonoBehaviour
     public void SetMulti(int newMulti)
     {
         multi = newMulti;
+    }
+    public int GetUndoCount()
+    {
+        return undoCount;
+    }
+    public void SetUndoCount(int newUndoCount)
+    {
+        undoCount = newUndoCount;
+    }
+    public void AddUndoCount(int amount)
+    {
+        undoCount += amount;
     }
     public int GetWizardCount()
     {

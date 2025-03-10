@@ -74,6 +74,10 @@ public class LevelManager : MonoBehaviour
     {
         tiles.Remove(tile);
     }
+    public void Add(NodeTile tile)
+    {
+        tiles.Add(tile);
+    }
     public void FindAndTake(int id)
     {
         foreach(NodeTile tile in tiles)

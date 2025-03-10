@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ClickTile : MonoBehaviour
@@ -20,6 +21,7 @@ public class ClickTile : MonoBehaviour
                         if (tile.GetCanClick()&&!tile.GetIsClick())
                         {
                             GameObject.FindFirstObjectByType<LevelManager>().Remove(tile);
+                            HandManager.Instance.AddUndo(tile.GetID(), tile);
                             tile.posToMove = HandManager.Instance.AddTilePos(tile.GetID());
                             tile.Move();
                             //Destroy(hit.collider.gameObject,0.51f);
