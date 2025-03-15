@@ -66,6 +66,7 @@ public class NodeTile : MonoBehaviour
         gameObject.SetActive(true);
         LoadComponent();
         transform.position = posToMove;
+        localPos = tilePos;
         transform.DOMove(tilePos, 0.25f);
         transform.DOScale(Vector3.one, 0.5f);
     }

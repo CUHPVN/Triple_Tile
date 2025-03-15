@@ -103,7 +103,7 @@ public class LevelManager : MonoBehaviour
     {
         if(i < tiles.Count)
         {
-            tiles[i].transform.DOMove(tiles[i].localPos, 0.25f).SetEase(Ease.InOutQuad);
+            tiles[i].transform.DOMove(tiles[i].localPos, 0.15f).SetEase(Ease.InOutQuad);
             yield return new WaitForSeconds(0.01f);
             yield return StartCoroutine(DropDown(i + 1));
 
@@ -123,9 +123,14 @@ public class LevelManager : MonoBehaviour
         {
             TripleManager.Instance.SetWin(true);
             TripleManager.Instance.Pause();
-            TripleTileUIManager.Instance.OpenWinPanel();
+            Invoke(nameof(OpenWin), 0.5f);
             Debug.Log("You Win");
         }
+    }
+    public void OpenWin()
+    {
+        TripleTileUIManager.Instance.OpenWinPanel();
+
     }
     public void SetTile()
     {

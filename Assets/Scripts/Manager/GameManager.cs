@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int wizardCount = 0;
     [SerializeField] private int shuffleCount = 0;
     [SerializeField] private int currentLevel = 0;
+    [SerializeField] private bool isAttack = false;
     private void Awake()
     {
         if (Instance != null)

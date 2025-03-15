@@ -18,6 +18,8 @@ public class TripleTileUIManager : MonoBehaviour
     Vector3 originalScale;
     public float shakeDuration = 0.2f; 
     public float scaleIncrease = 1.2f; 
+    public float delaySkill = 0.55f;
+    public float delayTime = 0.55f;
     void Awake()
     {
         Instance = this;
@@ -27,6 +29,8 @@ public class TripleTileUIManager : MonoBehaviour
     void Update()
     {
         UpdateUI();
+        if(delaySkill > 0)
+            delaySkill -= Time.deltaTime;
     }
     public void UpdateUI()
     {
@@ -37,19 +41,22 @@ public class TripleTileUIManager : MonoBehaviour
     }
     public void Undo()
     {
-        if (TripleManager.Instance.GetUndo() <= 0 || HandManager.Instance.GetUndoCount() == 0) return;
+        if (TripleManager.Instance.GetUndo() <= 0 || HandManager.Instance.GetUndoCount() == 0||delaySkill>0) return;
+        delaySkill = delayTime;
         TripleManager.Instance.DecUndo();
         GameObject.FindFirstObjectByType<HandManager>().RemoveUndo();
     }
     public void Shuffle()
     {
-        if (TripleManager.Instance.GetShuffle() <= 0) return;
+        if (TripleManager.Instance.GetShuffle() <= 0||delaySkill>0) return;
+        delaySkill = delayTime;
         TripleManager.Instance.DecShuffle();
         GameObject.FindFirstObjectByType<LevelManager>().ShuffleOne();
     }
     public void Wizard()
     {
-        if (TripleManager.Instance.GetWizard() <= 0) return;
+        if (TripleManager.Instance.GetWizard() <= 0||delaySkill>0) return;
+        delaySkill = delayTime;
         TripleManager.Instance.DecWizard();
         int id = HandManager.Instance.CheckOne();
         if (id != 0)

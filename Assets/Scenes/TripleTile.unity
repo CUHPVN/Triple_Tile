@@ -3221,7 +3221,7 @@ MonoBehaviour:
   undoCount: 5
   wizardCount: 5
   shuffleCount: 5
-  currentLevel: 2
+  currentLevel: 0
 --- !u!4 &883748723
 Transform:
   m_ObjectHideFlags: 0
