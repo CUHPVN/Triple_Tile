@@ -8,6 +8,20 @@ public class PopOnEnable : MonoBehaviour
     {
         if (!isPop)
         {
+            //isPop = true;
+            transform.DOScale(new Vector3(0.25f, 0.25f, 1), 0f).OnComplete(() =>
+            {
+                transform.DOScale(new Vector3(1.1f, 1.1f, 1), 0.2f).OnComplete(() =>
+                {
+                    transform.DOScale(new Vector3(1f, 1f, 1f), 0.3f);
+                });
+            });
+        }
+    }
+    public void Pop()
+    {
+        if (!isPop)
+        {
             isPop = true;
             transform.DOScale(new Vector3(0.25f, 0.25f, 1), 0f).OnComplete(() =>
             {
@@ -18,7 +32,17 @@ public class PopOnEnable : MonoBehaviour
             });
         }
     }
-
+    public void DisableThis()
+    {
+        isPop = false;
+        transform.DOScale(new Vector3(1f, 1f, 1), 0f).OnComplete(() =>
+        {
+            transform.DOScale(new Vector3(1.1f, 1.1f, 1), 0.2f).OnComplete(() =>
+            {
+                transform.DOScale(new Vector3(0.01f, 0.01f, 1f), 0.3f).OnComplete(() => transform.gameObject.SetActive(false));
+            });
+        });
+    }
     public void Disable()
     {
         isPop = false;

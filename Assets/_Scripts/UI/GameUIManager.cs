@@ -6,16 +6,30 @@ using UnityEngine.SceneManagement;
 
 public class GameUIManager : MonoBehaviour
 {
+    public static GameUIManager Instance;
     [SerializeField] private TMP_InputField inputField;
+    [SerializeField] private Transform attackButton;
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
     void Start()
     {
-        
+        attackButton.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+    public void TurnOnAttackButton()
+    {
+        attackButton.gameObject.SetActive(true);
+        //attackButton.GetComponent<PopOnEnable>().Pop();
     }
     public void LoadTripleTile()
     {
@@ -27,6 +41,11 @@ public class GameUIManager : MonoBehaviour
         {
             GameManager.Instance.SetCurLvl(0);
         }
+        SceneManager.LoadScene("TripleTile");
+    }
+    public void Attack(int lv)
+    {
+        GameManager.Instance.SetCurLvl(lv);
         SceneManager.LoadScene("TripleTile");
     }
 }

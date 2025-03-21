@@ -94,6 +94,7 @@ public class TripleTileUIManager : MonoBehaviour
     }
     public void Attack()
     {
+        GameManager.Instance.SetScore(TripleManager.Instance.GetScore());
         SceneManager.LoadScene("Game");
     }
 

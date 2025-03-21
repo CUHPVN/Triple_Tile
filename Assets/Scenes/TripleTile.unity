@@ -952,6 +952,8 @@ MonoBehaviour:
   winPanel: {fileID: 794687375}
   shakeDuration: 0.2
   scaleIncrease: 1.2
+  delaySkill: 0.55
+  delayTime: 0.55
 --- !u!1 &251304960
 GameObject:
   m_ObjectHideFlags: 0
@@ -3222,6 +3224,7 @@ MonoBehaviour:
   wizardCount: 5
   shuffleCount: 5
   currentLevel: 0
+  isAttack: 0
 --- !u!4 &883748723
 Transform:
   m_ObjectHideFlags: 0

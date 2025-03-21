@@ -22,8 +22,9 @@ public class Enemy : MonoBehaviour
     }
     protected virtual void CheckStop()
     { 
-        if (Vector2.Distance(player.position, transform.position)<=2){
+        if (Vector2.Distance(player.position, transform.position)<=2&&MapManager.Instance.GetMove()){
             MapManager.Instance.Stop();
+            GameUIManager.Instance.TurnOnAttackButton();
         }
     }
 }
