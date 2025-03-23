@@ -21,7 +21,6 @@ public class GameUIManager : MonoBehaviour
         attackButton.gameObject.SetActive(false);
     }
 
-    // Update is called once per frame
     void Update()
     {
         
