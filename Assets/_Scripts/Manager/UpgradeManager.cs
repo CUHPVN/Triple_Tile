@@ -41,6 +41,25 @@ public class UpgradeManager : MonoBehaviour
         }
         return 0;
     }
+    public void SetLevel(UpgradeType upgradeType,int value)
+    {
+        UpdateCost();
+        switch(upgradeType)
+        {
+            case UpgradeType.Damage:
+                levelDamage = value;
+                break;
+            case UpgradeType.Undo:
+                levelUndo = value;
+                break;
+            case UpgradeType.Wizard:
+                levelWizard = value;
+                break;
+            case UpgradeType.Shuffle:
+                levelShuffle = value;
+                break;
+        }
+    }
     public int GetCost(UpgradeType upgradeType)
     {
         UpdateCost();

@@ -26,12 +26,34 @@ public class Enemy : MonoBehaviour
         coin = 10;
         player = GameObject.FindWithTag("Player").transform;
     }
+    public void SetHP(float hp)
+    {
+        this.hp = hp;
+    }
+    public void SetMaxHP(float maxHp)
+    {
+        this.maxHp = maxHp;
+    }
+    public void SetCoin(float coin)
+    {
+        this.coin = coin;
+    }
     protected virtual void CheckStop()
     { 
         if (Vector2.Distance(player.position, transform.position)<=2&&MapManager.Instance.GetMove()){
             MapManager.Instance.Stop();
+            GameManager.Instance.enemy = this;
             GameUIManager.Instance.TurnOnAttackButton();
         }
+    }
+    public virtual void AddMap()
+    {
+        SaveData.Map map;
+        map.name = transform.parent.name;
+        map.hp = hp;
+        map.maxHp = maxHp;
+        map.coin = coin;
+        GameManager.Instance.AddMap(map);
     }
     protected virtual void UpdateHP()
     {

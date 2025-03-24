@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -12,7 +13,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int wizardCount = 0;
     [SerializeField] private int shuffleCount = 0;
     [SerializeField] private int currentLevel = 0;
-    public bool isAttack = false;
+    [SerializeField] private SaveData.Map map;
+    [SerializeField] public Enemy enemy;
+    [SerializeField] bool isAttack = false;
     private void Awake()
     {
         if (Instance != null)
@@ -41,6 +44,14 @@ public class GameManager : MonoBehaviour
     public void AddCoin(int amount)
     {
         coin += amount;
+    }
+    public bool GetAttack()
+    {
+        return isAttack;
+    }
+    public void SetAttack(bool newIsAttack)
+    {
+        isAttack = newIsAttack;
     }
     public int GetCurLvl()
     {
@@ -93,5 +104,34 @@ public class GameManager : MonoBehaviour
     public void AddShuffleCount(int amount)
     {
         shuffleCount += amount;
+    }
+    public void AddMap(SaveData.Map map)
+    {
+        this.map = map;
+    }
+    public SaveData.Map GetMap()
+    {
+        return map;
+    }
+    public bool CheckMap()
+    {
+        return map.name!=null;
+    }
+    public void SetMap(SaveData.Map newMap)
+    {
+        map = newMap;
+    }
+    public void Save()
+    {
+        SaveData data = new SaveData();
+        data.levelDamage = UpgradeManager.Instance.GetLevel(UpgradeManager.UpgradeType.Damage);
+        data.levelUndo = UpgradeManager.Instance.GetLevel(UpgradeManager.UpgradeType.Undo);
+        data.levelWizard = UpgradeManager.Instance.GetLevel(UpgradeManager.UpgradeType.Wizard);
+        data.levelShuffle = UpgradeManager.Instance.GetLevel(UpgradeManager.UpgradeType.Shuffle);
+        data.coin = coin;
+        data.isAttack = isAttack;
+        enemy.AddMap();
+        data.map = map;
+        SaveSystem.Instance.SaveGame(data);
     }
 }

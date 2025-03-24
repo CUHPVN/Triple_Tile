@@ -111,7 +111,9 @@ public class GameUIManager : MonoBehaviour
     public void Attack(int lv)
     {
         GameManager.Instance.SetCurLvl(lv);
-        GameManager.Instance.isAttack = true;
+        GameManager.Instance.SetAttack(true);
+
+        GameManager.Instance.Save();
         SceneManager.LoadScene("TripleTile");
     }
 }
