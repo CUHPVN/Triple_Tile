@@ -5,14 +5,14 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-
+    [SerializeField] private int coin = 0;
     [SerializeField] private int score = 0;
     [SerializeField] private int multi = 1;
     [SerializeField] private int undoCount = 0;
     [SerializeField] private int wizardCount = 0;
     [SerializeField] private int shuffleCount = 0;
     [SerializeField] private int currentLevel = 0;
-    [SerializeField] private bool isAttack = false;
+    public bool isAttack = false;
     private void Awake()
     {
         if (Instance != null)
@@ -30,9 +30,17 @@ public class GameManager : MonoBehaviour
     {
         score = newScore;
     }
-    public void AddScore(int amount)
+    public int GetCoin()
     {
-        score += amount * multi;
+        return coin;
+    }
+    public void SetCoin(int newCoin)
+    {
+        coin = newCoin;
+    }
+    public void AddCoin(int amount)
+    {
+        coin += amount;
     }
     public int GetCurLvl()
     {
