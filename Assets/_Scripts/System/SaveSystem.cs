@@ -69,7 +69,6 @@ public class SaveSystem : MonoBehaviour
             SaveData data = JsonUtility.FromJson<SaveData>(json);
             Debug.Log("Game loaded!");
             return data;
-            return null;
         }
     }
 

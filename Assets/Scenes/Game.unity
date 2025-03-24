@@ -1580,6 +1580,7 @@ MonoBehaviour:
   wizardCount: 0
   shuffleCount: 0
   currentLevel: 0
+  enemy: {fileID: 0}
   isAttack: 0
 --- !u!4 &883748723
 Transform:
@@ -2089,7 +2090,6 @@ MonoBehaviour:
     levelShuffle: 0
     coin: 0
     isAttack: 0
-    Map: {fileID: 0}
 --- !u!1 &1075007263
 GameObject:
   m_ObjectHideFlags: 0
