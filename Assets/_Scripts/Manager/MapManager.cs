@@ -19,7 +19,6 @@ public class MapManager : MonoBehaviour
             SaveData.Map map = GameManager.Instance.GetMap();
             Transform spawnObj = SpawnManager.Instance.Spawn(map.name, 0, 0, Quaternion.identity);
             spawnObj.GetComponentInChildren<Enemy>().SetHP(map.hp);
-            Debug.Log(map.hp);
             spawnObj.GetComponentInChildren<Enemy>().SetMaxHP(map.maxHp);
             spawnObj.GetComponentInChildren<Enemy>().SetCoin(map.coin);
         }
