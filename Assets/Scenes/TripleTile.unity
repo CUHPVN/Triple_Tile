@@ -3218,12 +3218,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dad80c37b2ec8f445b407755af359985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  coin: 0
+  latestCoin: 0
   score: 0
   multi: 1
   undoCount: 5
   wizardCount: 5
   shuffleCount: 5
-  currentLevel: 0
+  currentLevel: 1
+  map:
+    name: 
+    hp: 0
+    maxHp: 0
+    coin: 0
+  enemy: {fileID: 0}
   isAttack: 0
 --- !u!4 &883748723
 Transform:
@@ -6093,6 +6101,7 @@ MonoBehaviour:
   - {fileID: 5207944977053241790, guid: 7f3ec978c74ff0c4ebe2221ae53cec79, type: 3}
   - {fileID: 4271570337583524910, guid: e6df7740395d63447907f7fe367adb33, type: 3}
   - {fileID: 5202174156860041458, guid: 48260483c75868a4c8eb75fa6a8a9850, type: 3}
+  - {fileID: 336852145281036805, guid: 0a44ee590c770e54d9db5cd59a9686ff, type: 3}
   - {fileID: 336852145281036805, guid: 3d7d83baa9680ad4195ad1c788f682e8, type: 3}
   levelParent: {fileID: 841241422}
   isWin: 0

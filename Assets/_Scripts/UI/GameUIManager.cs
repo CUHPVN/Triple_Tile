@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class GameUIManager : MonoBehaviour
 {
@@ -13,8 +14,11 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] private Transform upgradeParent;
     [SerializeField] private List<Transform> upgradeItem = new();
     [SerializeField] private List<TMP_Text> upgradeDescriptions = new();
-    [SerializeField] private List<Button> upgradeButtons = new();
+    [SerializeField] private List<UnityEngine.UI.Button> upgradeButtons = new();
     [SerializeField] private List<TMP_Text> upgradeCosts = new();
+    [SerializeField] private UnityEngine.UI.Button deleteButton;
+    [SerializeField] private UnityEngine.UI.Button saveButton;
+
 
     private void Awake()
     {
@@ -48,7 +52,7 @@ public class GameUIManager : MonoBehaviour
         {
             UpdateCost();
         }
-        coinCounts.text = GameManager.Instance.GetCoin().ToString();
+        coinCounts.text = ((int)GameManager.Instance.GetLatestCoin()).ToString();
     }
     private void LoadItem()
     {
@@ -61,7 +65,7 @@ public class GameUIManager : MonoBehaviour
     {
         foreach(Transform button in upgradeItem)
         {
-            upgradeButtons.Add(button.GetComponentInChildren<Button>());
+            upgradeButtons.Add(button.GetComponentInChildren<UnityEngine.UI.Button>());
         }
     }
     private void LoadDescription()
@@ -73,7 +77,7 @@ public class GameUIManager : MonoBehaviour
     }
     private void LoadCost()
     {
-        foreach (Button button in upgradeButtons)
+        foreach (UnityEngine.UI.Button button in upgradeButtons)
         {
             upgradeCosts.Add(button.GetComponentInChildren<TMP_Text>());
         }
@@ -94,11 +98,14 @@ public class GameUIManager : MonoBehaviour
     }
     private void AddButtonEvent()
     {
-        foreach (Button button in upgradeButtons)
+        foreach (UnityEngine.UI.Button button in upgradeButtons)
         {
             int id = upgradeButtons.IndexOf(button);
             button.onClick.AddListener(() => OnBuyClick(id));
         }
+        deleteButton.onClick.AddListener(() => SaveSystem.Instance.DeleteSave());
+        saveButton.onClick.AddListener(() => GameManager.Instance.Save());
+
     }
     private void OnBuyClick(int id)
     {
@@ -108,11 +115,14 @@ public class GameUIManager : MonoBehaviour
     {
         attackButton.gameObject.SetActive(true);
     }
+    public void TurnOffAttackButton()
+    {
+        attackButton.gameObject.SetActive(false);
+    }
     public void Attack(int lv)
     {
         GameManager.Instance.SetCurLvl(lv);
         GameManager.Instance.SetAttack(true);
-
         GameManager.Instance.Save();
         SceneManager.LoadScene("TripleTile");
     }

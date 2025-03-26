@@ -1,11 +1,12 @@
 using DG.Tweening.Core.Easing;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class SaveData
 {
-    public struct Map
+    [System.Serializable] public struct Map
     {
         public string name;
         public float hp;
@@ -77,12 +78,14 @@ public class SaveSystem : MonoBehaviour
         if (File.Exists(filePath))
         {
             File.Delete(filePath);
+            data = new SaveData();
             Debug.Log("Save file deleted!");
+            GameManager.Instance.DeleteSave();
+            SceneManager.LoadScene("Game");
         }
         else
         {
             Debug.LogWarning("Save file not found to delete!");
         }
-
     }
 }

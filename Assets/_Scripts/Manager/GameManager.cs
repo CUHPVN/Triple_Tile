@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     [SerializeField] private int coin = 0;
+    [SerializeField] private float latestCoin = 0;
     [SerializeField] private int score = 0;
     [SerializeField] private int multi = 1;
     [SerializeField] private int undoCount = 0;
@@ -15,7 +16,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int currentLevel = 0;
     [SerializeField] private SaveData.Map map;
     [SerializeField] public Enemy enemy;
-    [SerializeField] bool isAttack = false;
+    [SerializeField] private bool isAttack = false;
     private void Awake()
     {
         if (Instance != null)
@@ -24,6 +25,49 @@ public class GameManager : MonoBehaviour
         }
         else Instance = this;
         DontDestroyOnLoad(this.gameObject);
+        LoadComponent();
+    }
+    private void Update()
+    {
+        CoinAnim();
+    }
+    public void LoadComponent()
+    {
+        coin = 0;
+        latestCoin = 0;
+        score = 0;
+        multi = 1;
+        undoCount = 0;
+        wizardCount = 0;
+        shuffleCount = 0;
+        currentLevel = 0;
+        isAttack = false;
+    }
+    public void DeleteSave()
+    {
+        coin = 0;
+        latestCoin = 0;
+        score = 0;
+        multi = 1;
+        undoCount = 0;
+        wizardCount = 0;
+        shuffleCount = 0;
+        currentLevel = 0;
+        isAttack = false;
+        map= new SaveData.Map();
+        enemy = null;
+    }
+    protected virtual void CoinAnim()
+    {
+        if (Mathf.Abs(latestCoin - coin) < 1) latestCoin = coin;
+        else
+        {
+            latestCoin = Mathf.Lerp(latestCoin, coin, 0.1f);
+        }
+    }
+    public float GetLatestCoin()
+    {
+        return latestCoin;
     }
     public int GetScore()
     {
@@ -113,13 +157,29 @@ public class GameManager : MonoBehaviour
     {
         return map;
     }
+    public void AttackEnemy()
+    {
+        StartCoroutine(Damage(score));
+    }
+    IEnumerator Damage(int damage)
+    {
+        yield return new WaitForSeconds(1);
+        enemy.SetHP(enemy.GetHP() - (float)damage);
+        score = 0;
+    }
     public bool CheckMap()
     {
-        return map.name!=null;
+        return map.hp!=0;
     }
     public void SetMap(SaveData.Map newMap)
     {
         map = newMap;
+        if(enemy!=null)
+        enemy.SetHP(map.hp);
+    }
+    public void CheckDeath()
+    {
+        if(map.hp-score <= 0) GameUIManager.Instance.TurnOffAttackButton();
     }
     public void Save()
     {
@@ -130,8 +190,19 @@ public class GameManager : MonoBehaviour
         data.levelShuffle = UpgradeManager.Instance.GetLevel(UpgradeManager.UpgradeType.Shuffle);
         data.coin = coin;
         data.isAttack = isAttack;
-        enemy.AddMap();
-        data.map = map;
-        SaveSystem.Instance.SaveGame(data);
+        if (enemy != null)
+        {
+            enemy.AddMap();
+            data.map = map;
+        }
+        else
+        {
+            data.map = SaveSystem.Instance.data.map;
+        }
+            SaveSystem.Instance.SaveGame(data);
+    }
+    private void OnApplicationQuit()
+    {
+        Save();
     }
 }

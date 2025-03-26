@@ -96,7 +96,8 @@ public class LevelManager : MonoBehaviour
     {
         foreach(var i in tiles)
         {
-            i.transform.position = i.localPos + new Vector3(0, 20, 0);
+            i.transform.position = i.localPos;
+            i.transform.localScale = new Vector3(0.0f,0.0f,1f);
         }
     }
     private IEnumerator DropDown(int i)
@@ -104,12 +105,17 @@ public class LevelManager : MonoBehaviour
         if(i < tiles.Count)
         {
             tiles[i].transform.DOMove(tiles[i].localPos, 0.15f).SetEase(Ease.InOutQuad);
+            tiles[i].transform.DOScale(new Vector3(1,1,1), 0.25f).SetEase(Ease.InOutQuad);
             yield return new WaitForSeconds(0.01f);
             yield return StartCoroutine(DropDown(i + 1));
-
         }
         else
         {
+            yield return new WaitForSeconds(0.01f);
+            foreach (var tile in tiles)
+            {
+                tile.transform.localScale=new Vector3(1.0f,1.0f,1.0f);
+            }
             yield break;
         }
     }

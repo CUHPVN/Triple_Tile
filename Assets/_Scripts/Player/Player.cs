@@ -4,13 +4,24 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private Animator animator;
+    public static Player Instance {  get; private set; }
+    [SerializeField] private Animator animator;
     private void Awake()
     {
+        Instance = this;
         animator = GetComponent<Animator>();
     }
     private void Update()
     {
         animator.SetBool("IsRun", MapManager.Instance.GetMove());
+    }
+    public void Attack()
+    {
+        animator.SetBool("IsAttack", true);
+        Invoke(nameof(StopAttack),0.5f);
+    }
+    public void StopAttack()
+    {
+        animator.SetBool("IsAttack", false);
     }
 }

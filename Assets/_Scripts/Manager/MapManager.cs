@@ -14,20 +14,25 @@ public class MapManager : MonoBehaviour
     }
     private void Start()
     {
-        if (GameManager.Instance.CheckMap())
+        SaveSystem.Instance.TakeData();
+        if (SaveSystem.Instance.data.map.name!=null&& SaveSystem.Instance.data.map.hp>0)
         {
-            SaveData.Map map = GameManager.Instance.GetMap();
+            SaveData.Map map = SaveSystem.Instance.data.map;
             Transform spawnObj = SpawnManager.Instance.Spawn(map.name, 0, 0, Quaternion.identity);
             spawnObj.GetComponentInChildren<Enemy>().SetHP(map.hp);
             spawnObj.GetComponentInChildren<Enemy>().SetMaxHP(map.maxHp);
             spawnObj.GetComponentInChildren<Enemy>().SetCoin(map.coin);
         }
         else
-        SpawnTile(new Vector2(0, 0));
+        SpawnBaseTile(new Vector2(0,0));
     }
     public void Update()
     {
         
+    }
+    public void SpawnBaseTile(Vector2 pos)
+    {
+        SpawnManager.Instance.Spawn("Base Terain", pos.x, pos.y, Quaternion.identity);
     }
     public void SpawnTile(Vector2 pos)
     {

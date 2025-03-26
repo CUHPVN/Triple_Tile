@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] protected float hp;
+    [SerializeField] protected float latestHp;
     [SerializeField] protected float maxHp;
     protected float coin;
     [SerializeField] protected Transform player;
@@ -15,20 +16,43 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected TMP_Text hpText;
 
 
-    private void Awake()
+    private void OnEnable()
     {
         LoadComponent();
     }
+    private void Start()
+    {
+    }
     protected virtual void LoadComponent()
     {
-        hp = 100;
-        maxHp = 100;
-        coin = 10;
+        int value = UpgradeManager.Instance.GetLevel(UpgradeManager.UpgradeType.Damage);
+        int value2 = UpgradeManager.Instance.GetLevel(UpgradeManager.UpgradeType.Undo)+ UpgradeManager.Instance.GetLevel(UpgradeManager.UpgradeType.Wizard)+ UpgradeManager.Instance.GetLevel(UpgradeManager.UpgradeType.Shuffle);
+        hp = 50+(value2+value) *10+value2;
+        latestHp = hp;
+        maxHp = 50 + (value2+value) * 10+value2;
+        coin = hp*0.1f+value+value2;
         player = GameObject.FindWithTag("Player").transform;
+    }
+    public float GetHP()
+    {
+        return hp;
+    }
+    public float GetMaxHP()
+    {
+        return maxHp;
+    }
+    public float GetCoin()
+    {
+        return coin;
     }
     public void SetHP(float hp)
     {
         this.hp = hp;
+        if (this.hp <= 0)
+        {
+            this.hp = 0;
+            Invoke(nameof(Death), 1f);
+        }
     }
     public void SetMaxHP(float maxHp)
     {
@@ -43,6 +67,7 @@ public class Enemy : MonoBehaviour
         if (Vector2.Distance(player.position, transform.position)<=2&&MapManager.Instance.GetMove()){
             MapManager.Instance.Stop();
             GameManager.Instance.enemy = this;
+            if(hp-GameManager.Instance.GetScore()>0)
             GameUIManager.Instance.TurnOnAttackButton();
         }
     }
@@ -55,11 +80,20 @@ public class Enemy : MonoBehaviour
         map.coin = coin;
         GameManager.Instance.AddMap(map);
     }
+    public void Death()
+    {
+        GameManager.Instance.AddCoin((int)coin);
+        gameObject.SetActive(false);
+        MapManager.Instance.Continues();
+    }
     protected virtual void UpdateHP()
     {
         if(hpSlider != null)
         {
-            hpSlider.value = (float)hp / maxHp;
+            if(latestHp != hp)
+            {
+                Anim();
+            }
             hpText.text = (int)hp + "/" + (int)maxHp;
         }
         else
@@ -68,5 +102,10 @@ public class Enemy : MonoBehaviour
             hpSlider = hpBar.GetComponentInChildren<Slider>();
             hpText = hpBar.GetComponentInChildren<TMP_Text>();
         }
+    }
+    protected virtual void Anim()
+    {
+        latestHp = Mathf.Lerp(latestHp, hp, 0.05f);
+        hpSlider.value = (float)latestHp / maxHp;
     }
 }

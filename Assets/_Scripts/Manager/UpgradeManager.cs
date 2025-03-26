@@ -20,6 +20,18 @@ public class UpgradeManager : MonoBehaviour
             Instance = this;
         }
         UpdateCost();
+        LoadComponent();
+    }
+    private void LoadComponent()
+    {
+        levelDamage = 1;
+        levelUndo = 0;
+        levelWizard = 0;
+        levelShuffle = 0;
+        costDamage = 10;
+        costUndo = 10;
+        costWizard = 10;
+        costShuffle = 10;
     }
     private void Update()
     {
@@ -101,15 +113,23 @@ public class UpgradeManager : MonoBehaviour
             {
                 case UpgradeType.Damage:
                     levelDamage++;
+                    UpdateUpgrade();
+                    GameManager.Instance.Save();
                     break;
                 case UpgradeType.Undo:
                     levelUndo++;
+                    UpdateUpgrade();
+                    GameManager.Instance.Save();
                     break;
                 case UpgradeType.Wizard:
                     levelWizard++;
+                    UpdateUpgrade();
+                    GameManager.Instance.Save();
                     break;
                 case UpgradeType.Shuffle:
                     levelShuffle++;
+                    UpdateUpgrade();
+                    GameManager.Instance.Save();
                     break;
             }
         }

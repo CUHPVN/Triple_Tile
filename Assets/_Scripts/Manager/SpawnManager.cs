@@ -70,7 +70,7 @@ public class SpawnManager : MonoBehaviour
             this.prefabs.Add(prefab);
         }
         this.HidePrefabs();
-        Debug.Log(transform.name + ": Load Prefab", gameObject);
+        //Debug.Log(transform.name + ": Load Prefab", gameObject);
 
     }
     private void HidePrefabs()
