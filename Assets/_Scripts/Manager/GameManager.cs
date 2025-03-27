@@ -205,4 +205,12 @@ public class GameManager : MonoBehaviour
     {
         Save();
     }
+    public void OpenWeb()
+    {
+        Application.OpenURL("https://cuhp-vn.itch.io/");
+    }
+    public void Exit()
+    {
+        Application.Quit();
+    }
 }

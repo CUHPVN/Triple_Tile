@@ -18,6 +18,8 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] private List<TMP_Text> upgradeCosts = new();
     [SerializeField] private UnityEngine.UI.Button deleteButton;
     [SerializeField] private UnityEngine.UI.Button saveButton;
+    [SerializeField] private UnityEngine.UI.Button exitButton;
+    [SerializeField] private UnityEngine.UI.Button openwebButton;
 
 
     private void Awake()
@@ -105,6 +107,8 @@ public class GameUIManager : MonoBehaviour
         }
         deleteButton.onClick.AddListener(() => SaveSystem.Instance.DeleteSave());
         saveButton.onClick.AddListener(() => GameManager.Instance.Save());
+        exitButton.onClick.AddListener(() => GameManager.Instance.Exit());
+        openwebButton.onClick.AddListener(() => GameManager.Instance.OpenWeb());
 
     }
     private void OnBuyClick(int id)
