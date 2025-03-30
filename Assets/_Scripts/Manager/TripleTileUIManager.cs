@@ -76,6 +76,10 @@ public class TripleTileUIManager : MonoBehaviour
             }
         }
     }
+    public Transform GetWinText()
+    {
+        return winPanel;
+    }
     public void OpenWinPanel()
     {
         winPanel.gameObject.SetActive(true);
@@ -94,10 +98,17 @@ public class TripleTileUIManager : MonoBehaviour
     }
     public void Attack()
     {
-        GameManager.Instance.SetScore(TripleManager.Instance.GetScore());
+        GameManager.Instance.SetScore((int)TripleManager.Instance.GetScore());
+        Invoke(nameof(ChangeScene), 0.5f);
+    }
+    private void ChangeScene()
+    {
         SceneManager.LoadScene("Game");
     }
-
+    public void PlayButtonSound()
+    {
+        SoundManager.Instance.PlayButtonSound();
+    }
     public void BounceAndShakeText()
     {
         

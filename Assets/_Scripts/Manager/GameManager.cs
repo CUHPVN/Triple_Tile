@@ -27,6 +27,10 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
         LoadComponent();
     }
+    private void Start()
+    {
+        SoundManager.Instance.PlayMusic();
+    }
     private void Update()
     {
         CoinAnim();

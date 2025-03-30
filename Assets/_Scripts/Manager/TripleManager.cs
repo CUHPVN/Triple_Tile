@@ -9,7 +9,7 @@ public class TripleManager : MonoBehaviour
 {
     public static TripleManager Instance;
     [SerializeField] private PopOnEnable pop;
-    [SerializeField] private int score=0;
+    [SerializeField] private float score=0;
     [SerializeField] private int multi=1;
     [SerializeField] private int undoCount = 0;
     [SerializeField] private int wizardCount = 0;
@@ -78,7 +78,7 @@ public class TripleManager : MonoBehaviour
     {
         return isPause;
     }
-    public int GetScore()
+    public float GetScore()
     {
         return score;
     }
@@ -114,6 +114,10 @@ public class TripleManager : MonoBehaviour
     {
         score += val*multi;
         TripleTileUIManager.Instance.BounceAndShakeText();
+    }
+    public void MultiScrore(float val)
+    {
+        score = score * val;
     }
     
 }

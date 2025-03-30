@@ -104,11 +104,16 @@ public class GameUIManager : MonoBehaviour
         {
             int id = upgradeButtons.IndexOf(button);
             button.onClick.AddListener(() => OnBuyClick(id));
+            button.onClick.AddListener(() => SoundManager.Instance.PlayButtonSound());
         }
         deleteButton.onClick.AddListener(() => SaveSystem.Instance.DeleteSave());
+        deleteButton.onClick.AddListener(() => SoundManager.Instance.PlayButtonSound());
         saveButton.onClick.AddListener(() => GameManager.Instance.Save());
+        saveButton.onClick.AddListener(() => SoundManager.Instance.PlayButtonSound());
         exitButton.onClick.AddListener(() => GameManager.Instance.Exit());
+        exitButton.onClick.AddListener(() => SoundManager.Instance.PlayButtonSound());
         openwebButton.onClick.AddListener(() => GameManager.Instance.OpenWeb());
+        openwebButton.onClick.AddListener(() => SoundManager.Instance.PlayButtonSound());
 
     }
     private void OnBuyClick(int id)
@@ -129,5 +134,9 @@ public class GameUIManager : MonoBehaviour
         GameManager.Instance.SetAttack(true);
         GameManager.Instance.Save();
         SceneManager.LoadScene("TripleTile");
+    }
+    public void PlayButtonSound()
+    {
+        SoundManager.Instance.PlayButtonSound();
     }
 }

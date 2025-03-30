@@ -1,10 +1,13 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Burst.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using static SoundManager;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
 public class LevelManager : MonoBehaviour
 {
@@ -135,8 +138,39 @@ public class LevelManager : MonoBehaviour
     }
     public void OpenWin()
     {
+        SoundManager.Instance.PlaySFX(SFX.Win);
+        Transform win = TripleTileUIManager.Instance.GetWinText();
+        Transform t = SpawnManager.Instance.Spawn("Multi", win.position.x, win.position.y+1.5f, Quaternion.identity);
+        float tmp=0;
+        switch (transform.name)
+        {
+            case("Level-0(Clone)"):
+                tmp = 1.5f;
+                break;
+            case ("Level-1(Clone)"):
+                tmp = 2.0f;
+                break;
+            case ("Level-2(Clone)"):
+                tmp = 2.5f;
+                break;
+            case ("Level-3(Clone)"):
+                tmp = 3.0f;
+                break;
+            case ("Level-4(Clone)"):
+                tmp = 3.5f;
+                break;
+            
+        }
+        Debug.Log(transform.name + tmp);
+        t.GetComponent<TMP_Text>().text = "x " + tmp;
+        StartCoroutine(MulScore((float)tmp));
         TripleTileUIManager.Instance.OpenWinPanel();
 
+    }
+    IEnumerator MulScore(float val)
+    {
+        yield return new WaitForSeconds(0.45f);
+        TripleManager.Instance.MultiScrore(val);
     }
     public void SetTile()
     {

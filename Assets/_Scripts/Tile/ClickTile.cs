@@ -20,6 +20,7 @@ public class ClickTile : MonoBehaviour
                         NodeTile tile = hit.collider.GetComponent<NodeTile>();
                         if (tile.GetCanClick()&&!tile.GetIsClick())
                         {
+                            SoundManager.Instance.PlayButtonSound();
                             GameObject.FindFirstObjectByType<LevelManager>().Remove(tile);
                             HandManager.Instance.AddUndo(tile.GetID(), tile);
                             tile.posToMove = HandManager.Instance.AddTilePos(tile.GetID());

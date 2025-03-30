@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     }
     public void StopAttack()
     {
+        SoundManager.Instance.PlaySFX(SoundManager.SFX.Attack);
         animator.SetBool("IsAttack", false);
     }
 }

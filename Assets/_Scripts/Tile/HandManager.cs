@@ -249,6 +249,7 @@ public class HandManager : MonoBehaviour
                     break;
                 }
             }
+            SoundManager.Instance.PlaySFX(SoundManager.SFX.Correct);
         }
         Sort();
         TryAddTileFromQueue();
