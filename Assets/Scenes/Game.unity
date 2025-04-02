@@ -4006,6 +4006,7 @@ MonoBehaviour:
   enemy: {fileID: 0}
   isAttack: 0
   isWin: 1
+  isTripple: 0
   isTut: 1
 --- !u!4 &883748723
 Transform:
