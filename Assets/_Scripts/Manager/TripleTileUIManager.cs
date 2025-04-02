@@ -14,6 +14,7 @@ public class TripleTileUIManager : MonoBehaviour
     [SerializeField] private TMP_Text shuffleText;
     [SerializeField] private TMP_Text wizardText;
     [SerializeField] private Transform winPanel;
+    [SerializeField] private Tutorial tut;
     Vector3 originalPosition;
     Vector3 originalScale;
     public float shakeDuration = 0.2f; 
@@ -43,12 +44,20 @@ public class TripleTileUIManager : MonoBehaviour
     {
         if (TripleManager.Instance.GetUndo() <= 0 || HandManager.Instance.GetUndoCount() == 0||delaySkill>0) return;
         delaySkill = delayTime;
+        if(tut != null)
+        {
+            tut.tut2Done = true;
+        }
         TripleManager.Instance.DecUndo();
         GameObject.FindFirstObjectByType<HandManager>().RemoveUndo();
     }
     public void Shuffle()
     {
         if (TripleManager.Instance.GetShuffle() <= 0||delaySkill>0) return;
+        if (tut != null)
+        {
+            tut.tut4Done = true;
+        }
         delaySkill = delayTime;
         TripleManager.Instance.DecShuffle();
         GameObject.FindFirstObjectByType<LevelManager>().ShuffleOne();
@@ -57,6 +66,10 @@ public class TripleTileUIManager : MonoBehaviour
     {
         if (TripleManager.Instance.GetWizard() <= 0||delaySkill>0) return;
         delaySkill = delayTime;
+        if (tut != null)
+        {
+            tut.tut3Done = true;
+        }
         TripleManager.Instance.DecWizard();
         int id = HandManager.Instance.CheckOne();
         if (id != 0)
@@ -103,6 +116,7 @@ public class TripleTileUIManager : MonoBehaviour
     }
     private void ChangeScene()
     {
+        GameManager.Instance.isTripple = false; 
         SceneManager.LoadScene("Game");
     }
     public void PlayButtonSound()

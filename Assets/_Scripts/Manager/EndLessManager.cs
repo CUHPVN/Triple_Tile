@@ -22,6 +22,11 @@ public class EndLessManager : MonoBehaviour
         GameManager.Instance.SetCoin(SaveSystem.Instance.data.coin);
         //GameManager.Instance.SetAttack(SaveSystem.Instance.data.isAttack);
         GameManager.Instance.SetMap(SaveSystem.Instance.data.map);
+        GameManager.Instance.SetTut(SaveSystem.Instance.data.isTut);
+        HealthManager.Instance.health = SaveSystem.Instance.data.health;
+        HealthManager.Instance.elapsedTimes = SaveSystem.Instance.data.time;
+        HealthManager.Instance.Calculate(SaveSystem.Instance.data.currentTime);
+        if (!GameManager.Instance.GetWin()) HealthManager.Instance.DecHealth();
         Attack();
     }
     void Attack()

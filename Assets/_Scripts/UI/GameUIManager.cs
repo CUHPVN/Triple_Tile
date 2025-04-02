@@ -10,12 +10,15 @@ public class GameUIManager : MonoBehaviour
 {
     public static GameUIManager Instance;
     [SerializeField] private TMP_Text coinCounts;
+    [SerializeField] private TMP_Text healthCounts;
+    [SerializeField] private TMP_Text timeCounts;
     [SerializeField] private Transform attackButton;
     [SerializeField] private Transform upgradeParent;
     [SerializeField] private List<Transform> upgradeItem = new();
     [SerializeField] private List<TMP_Text> upgradeDescriptions = new();
     [SerializeField] private List<UnityEngine.UI.Button> upgradeButtons = new();
     [SerializeField] private List<TMP_Text> upgradeCosts = new();
+    [SerializeField] private Transform Tut;
     [SerializeField] private UnityEngine.UI.Button deleteButton;
     [SerializeField] private UnityEngine.UI.Button saveButton;
     [SerializeField] private UnityEngine.UI.Button exitButton;
@@ -55,6 +58,20 @@ public class GameUIManager : MonoBehaviour
             UpdateCost();
         }
         coinCounts.text = ((int)GameManager.Instance.GetLatestCoin()).ToString();
+        UpdateHealth();
+    }
+    public void UpdateHealth()
+    {
+        healthCounts.text = HealthManager.Instance.health.ToString();
+        timeCounts.text = HealthManager.Instance.time.ToString();
+    }
+    public void TurnOnTut()
+    {
+        Tut.gameObject.SetActive(true);
+    }
+    public void TurnOffTut()
+    {
+        Tut.gameObject.SetActive(false);
     }
     private void LoadItem()
     {
@@ -130,9 +147,32 @@ public class GameUIManager : MonoBehaviour
     }
     public void Attack(int lv)
     {
+        if(HealthManager.Instance.health<=0) return;
         GameManager.Instance.SetCurLvl(lv);
         GameManager.Instance.SetAttack(true);
-        GameManager.Instance.Save();
+        GameManager.Instance.SetWin(false);
+        if (GameManager.Instance.GetTut())
+        {
+            GameManager.Instance.SetTut(false);
+            GameManager.Instance.Save();
+            Invoke(nameof(OpenTut), 0.25f);
+        }
+        else
+        {
+            GameManager.Instance.Save();
+            Invoke(nameof(OpenTile), 0.25f);
+        }
+    }
+    public void OpenTut()
+    {
+        GameManager.Instance.isTripple = true;
+
+        SceneManager.LoadScene("TripleTileTut");
+    }
+    public void OpenTile()
+    {
+        GameManager.Instance.isTripple = true;
+
         SceneManager.LoadScene("TripleTile");
     }
     public void PlayButtonSound()

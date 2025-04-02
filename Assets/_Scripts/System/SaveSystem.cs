@@ -1,12 +1,13 @@
-using DG.Tweening.Core.Easing;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class SaveData
 {
-    [System.Serializable] public struct Map
+    [System.Serializable]
+    public struct Map
     {
         public string name;
         public float hp;
@@ -19,6 +20,10 @@ public class SaveData
     public int levelShuffle = 0;
     public int coin = 0;
     public bool isAttack = false;
+    public bool isTut = true;
+    public int health = 5;
+    public int time = 0;
+    public System.DateTime currentTime;
     public Map map;
 }
 
@@ -27,7 +32,6 @@ public class SaveSystem : MonoBehaviour
     private string filePath;
     public SaveData data;
     public static SaveSystem Instance { get; private set; }
-
 
     private void Awake()
     {
@@ -40,12 +44,16 @@ public class SaveSystem : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        filePath = Application.persistentDataPath + "/savefile.json";
+        filePath = Application.persistentDataPath + "/savefile.dat";
     }
+
     public void SaveGame(SaveData data)
     {
-        string json = JsonUtility.ToJson(data);
-        File.WriteAllText(filePath, json);
+        BinaryFormatter formatter = new BinaryFormatter();
+        using (FileStream stream = new FileStream(filePath, FileMode.Create))
+        {
+            formatter.Serialize(stream, data);
+        }
         Debug.Log("Game saved to " + filePath);
     }
     public void TakeData()
@@ -57,19 +65,18 @@ public class SaveSystem : MonoBehaviour
     {
         if (File.Exists(filePath))
         {
-            string json = File.ReadAllText(filePath);
-            SaveData data = JsonUtility.FromJson<SaveData>(json);
-            Debug.Log("Game loaded!");
-            return data;
+            BinaryFormatter formatter = new BinaryFormatter();
+            using (FileStream stream = new FileStream(filePath, FileMode.Open))
+            {
+                SaveData data = (SaveData)formatter.Deserialize(stream);
+                Debug.Log("Game loaded!");
+                return data;
+            }
         }
         else
         {
             Debug.LogWarning("Save file not found!");
-            GameManager.Instance.Save();
-            string json = File.ReadAllText(filePath);
-            SaveData data = JsonUtility.FromJson<SaveData>(json);
-            Debug.Log("Game loaded!");
-            return data;
+            return new SaveData();
         }
     }
 
@@ -80,7 +87,6 @@ public class SaveSystem : MonoBehaviour
             File.Delete(filePath);
             data = new SaveData();
             Debug.Log("Save file deleted!");
-            GameManager.Instance.DeleteSave();
             SceneManager.LoadScene("Game");
         }
         else

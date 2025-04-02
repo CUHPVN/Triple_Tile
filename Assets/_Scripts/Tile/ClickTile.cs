@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class ClickTile : MonoBehaviour
 {
+    [SerializeField] private Tutorial tut;
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -20,6 +21,13 @@ public class ClickTile : MonoBehaviour
                         NodeTile tile = hit.collider.GetComponent<NodeTile>();
                         if (tile.GetCanClick()&&!tile.GetIsClick())
                         {
+                            if(tut!=null)
+                            {
+                                if (tut.tut1Done==false)
+                                {
+                                    tut.tut1Done = true;
+                                }
+                            }
                             SoundManager.Instance.PlayButtonSound();
                             GameObject.FindFirstObjectByType<LevelManager>().Remove(tile);
                             HandManager.Instance.AddUndo(tile.GetID(), tile);

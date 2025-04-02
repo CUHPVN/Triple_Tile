@@ -67,7 +67,15 @@ public class Enemy : MonoBehaviour
         if (Vector2.Distance(player.position, transform.position)<=2&&MapManager.Instance.GetMove()){
             MapManager.Instance.Stop();
             GameManager.Instance.enemy = this;
-            if(hp-GameManager.Instance.GetScore()>0)
+            if (GameManager.Instance.GetTut())
+            {
+                GameUIManager.Instance.TurnOnTut();
+            }
+            else
+            {
+                GameUIManager.Instance.TurnOffTut();
+            }
+            if (hp-GameManager.Instance.GetScore()>0)
             GameUIManager.Instance.TurnOnAttackButton();
         }
     }

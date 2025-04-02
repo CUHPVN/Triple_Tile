@@ -119,5 +119,17 @@ public class TripleManager : MonoBehaviour
     {
         score = score * val;
     }
-    
+    public void SetUndo(int value)
+    {
+        undoCount = value;
+    }
+    public void SetWizard(int value)
+    {
+        wizardCount = value;
+    }
+    public void SetShuffle(int value)
+    {
+        shuffleCount = value;
+    }
+
 }

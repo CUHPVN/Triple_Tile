@@ -17,6 +17,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private SaveData.Map map;
     [SerializeField] public Enemy enemy;
     [SerializeField] private bool isAttack = false;
+    [SerializeField] private bool isWin = true;
+    public bool isTripple = false;
+    [SerializeField] private bool isTut = true;
     private void Awake()
     {
         if (Instance != null)
@@ -46,6 +49,10 @@ public class GameManager : MonoBehaviour
         shuffleCount = 0;
         currentLevel = 0;
         isAttack = false;
+        isWin = true;
+        isTut = true;
+        map = new SaveData.Map();
+        enemy = null;
     }
     public void DeleteSave()
     {
@@ -58,7 +65,9 @@ public class GameManager : MonoBehaviour
         shuffleCount = 0;
         currentLevel = 0;
         isAttack = false;
-        map= new SaveData.Map();
+        isWin = true;
+        isTut= true;
+        map = new SaveData.Map();
         enemy = null;
     }
     protected virtual void CoinAnim()
@@ -100,6 +109,22 @@ public class GameManager : MonoBehaviour
     public void SetAttack(bool newIsAttack)
     {
         isAttack = newIsAttack;
+    }
+    public bool GetTut()
+    {
+        return isTut;
+    }
+    public void SetTut(bool tut)
+    {
+        isTut = tut;
+    }
+    public bool GetWin()
+    {
+        return isWin;
+    }
+    public void SetWin(bool win)
+    {
+        isWin = win;
     }
     public int GetCurLvl()
     {
@@ -194,6 +219,10 @@ public class GameManager : MonoBehaviour
         data.levelShuffle = UpgradeManager.Instance.GetLevel(UpgradeManager.UpgradeType.Shuffle);
         data.coin = coin;
         data.isAttack = isAttack;
+        data.isTut = isTut;
+        data.currentTime = System.DateTime.Now;
+        data.health = HealthManager.Instance.health;
+        data.time = HealthManager.Instance.elapsedTimes;
         if (enemy != null)
         {
             enemy.AddMap();
@@ -207,6 +236,10 @@ public class GameManager : MonoBehaviour
     }
     private void OnApplicationQuit()
     {
+        if (isTripple)
+        {
+            HealthManager.Instance.DecHealth();
+        }
         Save();
     }
     public void OpenWeb()

@@ -133,6 +133,7 @@ public class LevelManager : MonoBehaviour
             TripleManager.Instance.SetWin(true);
             TripleManager.Instance.Pause();
             Invoke(nameof(OpenWin), 0.5f);
+            GameManager.Instance.SetWin(true);
             Debug.Log("You Win");
         }
     }
@@ -161,7 +162,6 @@ public class LevelManager : MonoBehaviour
                 break;
             
         }
-        Debug.Log(transform.name + tmp);
         t.GetComponent<TMP_Text>().text = "x " + tmp;
         StartCoroutine(MulScore((float)tmp));
         TripleTileUIManager.Instance.OpenWinPanel();
