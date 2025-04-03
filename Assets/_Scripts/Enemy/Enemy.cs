@@ -27,9 +27,9 @@ public class Enemy : MonoBehaviour
     {
         int value = UpgradeManager.Instance.GetLevel(UpgradeManager.UpgradeType.Damage);
         int value2 = UpgradeManager.Instance.GetLevel(UpgradeManager.UpgradeType.Undo)+ UpgradeManager.Instance.GetLevel(UpgradeManager.UpgradeType.Wizard)+ UpgradeManager.Instance.GetLevel(UpgradeManager.UpgradeType.Shuffle);
-        hp = 50+(value2+value) *10+value2;
+        hp = (value)*50+value2*10;
         latestHp = hp;
-        maxHp = 50 + (value2+value) * 10+value2;
+        maxHp = (value) * 50 + value2 * 10;
         coin = hp*0.1f+value+value2;
         player = GameObject.FindWithTag("Player").transform;
     }

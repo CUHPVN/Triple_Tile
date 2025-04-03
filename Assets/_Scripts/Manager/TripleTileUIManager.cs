@@ -134,4 +134,12 @@ public class TripleTileUIManager : MonoBehaviour
                 }
             });
     }
+    public void OpenWeb()
+    {
+        GameManager.Instance.OpenWeb();
+    }
+    public void Exit()
+    {
+        GameManager.Instance.Exit();
+    }
 }
