@@ -18,6 +18,10 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] private List<TMP_Text> upgradeDescriptions = new();
     [SerializeField] private List<UnityEngine.UI.Button> upgradeButtons = new();
     [SerializeField] private List<TMP_Text> upgradeCosts = new();
+    [SerializeField] private Transform shopParent;
+    [SerializeField] private List<Transform> shopItem = new();
+    [SerializeField] private List<UnityEngine.UI.Button> shopButtons = new();
+    [SerializeField] private List<TMP_Text> shopCosts = new();
     [SerializeField] private Transform Tut;
     [SerializeField] private UnityEngine.UI.Button deleteButton;
     [SerializeField] private UnityEngine.UI.Button saveButton;
@@ -79,12 +83,20 @@ public class GameUIManager : MonoBehaviour
         {
             upgradeItem.Add(item);
         }
+        foreach (Transform item in shopParent)
+        {
+            shopItem.Add(item);
+        }
     }
     private void LoadButton()
     {
         foreach(Transform button in upgradeItem)
         {
             upgradeButtons.Add(button.GetComponentInChildren<UnityEngine.UI.Button>());
+        }
+        foreach (Transform button in shopItem)
+        {
+            shopButtons.Add(button.GetComponentInChildren<UnityEngine.UI.Button>());
         }
     }
     private void LoadDescription()
@@ -100,12 +112,20 @@ public class GameUIManager : MonoBehaviour
         {
             upgradeCosts.Add(button.GetComponentInChildren<TMP_Text>());
         }
+        foreach (UnityEngine.UI.Button button in shopButtons)
+        {
+            shopCosts.Add(button.GetComponentInChildren<TMP_Text>());
+        }
     }
     private void UpdateCost()
     {
         foreach (TMP_Text cost in upgradeCosts)
         {
             cost.text = ""+UpgradeManager.Instance.GetCost((UpgradeManager.UpgradeType) upgradeCosts.IndexOf(cost));
+        }
+        foreach (TMP_Text cost in shopCosts)
+        {
+            cost.text = "" + UpgradeManager.Instance.GetCost((UpgradeManager.UpgradeType)shopCosts.IndexOf(cost));
         }
     }
     private void UpdateDescription()
