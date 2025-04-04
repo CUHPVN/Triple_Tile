@@ -151,6 +151,7 @@ public class GameUIManager : MonoBehaviour
         GameManager.Instance.SetCurLvl(lv);
         GameManager.Instance.SetAttack(true);
         GameManager.Instance.SetWin(false);
+        GameManager.Instance.SetTileSprite(TileSprite.Weapon);
         if (GameManager.Instance.GetTut())
         {
             GameManager.Instance.SetTut(false);

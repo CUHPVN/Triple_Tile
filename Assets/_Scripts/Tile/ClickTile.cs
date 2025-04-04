@@ -31,7 +31,7 @@ public class ClickTile : MonoBehaviour
                             SoundManager.Instance.PlayButtonSound();
                             GameObject.FindFirstObjectByType<LevelManager>().Remove(tile);
                             HandManager.Instance.AddUndo(tile.GetID(), tile);
-                            tile.posToMove = HandManager.Instance.AddTilePos(tile.GetID());
+                            tile.posToMove = HandManager.Instance.AddTilePos(tile.GetID())+new Vector3(0,0.75f,0f);
                             tile.Move();
                             //Destroy(hit.collider.gameObject,0.51f);
                             break;

@@ -39,7 +39,8 @@ public class HideOnCollision : MonoBehaviour
             if (collider != null)
             {
                 var otherSprite = collider.GetComponent<SpriteRenderer>();
-                if (otherSprite != null && otherSprite.sortingOrder > spriteRenderer.sortingOrder)
+                var Tile = collider.GetComponent<NodeTile>();
+                if (otherSprite != null && otherSprite.sortingOrder > spriteRenderer.sortingOrder&&!Tile.GetIsClick())
                 {
                     this.isHidden = true;
                     GetComponent<NodeTile>().SetCanClick(false);

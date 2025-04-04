@@ -4008,6 +4008,8 @@ MonoBehaviour:
   isWin: 1
   isTripple: 0
   isTut: 1
+  nodeTileBase: {fileID: 11400000, guid: 96508a1c6d2a9374a9489682aa8a42ce, type: 2}
+  tileSprite: 0
 --- !u!4 &883748723
 Transform:
   m_ObjectHideFlags: 0

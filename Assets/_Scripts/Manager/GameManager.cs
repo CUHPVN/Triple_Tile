@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool isWin = true;
     public bool isTripple = false;
     [SerializeField] private bool isTut = true;
+    [SerializeField] NodeTileBase nodeTileBase;
+    [SerializeField] private TileSprite tileSprite;
     private void Awake()
     {
         if (Instance != null)
@@ -77,6 +80,15 @@ public class GameManager : MonoBehaviour
         {
             latestCoin = Mathf.Lerp(latestCoin, coin, 0.1f);
         }
+    }
+    public void SetTileSprite(TileSprite sprite)
+    {
+        //tileSprite = sprite;
+        SetSprite();
+    }
+    public void SetSprite()
+    {
+        nodeTileBase.SetTileSprite(tileSprite);
     }
     public float GetLatestCoin()
     {
