@@ -21,6 +21,6 @@ public class SpriteList
 public enum TileSprite
 {
     Weapon,
-    None,
+    Equipment,
     Fruit,
 }
