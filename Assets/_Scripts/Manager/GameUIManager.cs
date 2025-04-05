@@ -125,7 +125,25 @@ public class GameUIManager : MonoBehaviour
         }
         foreach (TMP_Text cost in shopCosts)
         {
-            cost.text = "" + UpgradeManager.Instance.GetCost((UpgradeManager.UpgradeType)shopCosts.IndexOf(cost));
+            if (GameManager.Instance.GetIsUnlockID(shopCosts.IndexOf(cost)))
+            {
+                if(GameManager.Instance.GetCurrentSprite() == (TileSprite)shopCosts.IndexOf(cost))
+                {
+                    cost.text = "USED";
+                    cost.color = Color.green;
+                }
+                else
+                {
+                    cost.text = "USE";
+                    cost.color = Color.red;
+                }
+            }
+            else
+            {
+                cost.text = "" + ShopManager.Instance.GetCost((TileSprite)shopCosts.IndexOf(cost));
+                cost.color = Color.black;
+                cost.fontSize = 16;
+            }
         }
     }
     private void UpdateDescription()
@@ -143,6 +161,12 @@ public class GameUIManager : MonoBehaviour
             button.onClick.AddListener(() => OnBuyClick(id));
             button.onClick.AddListener(() => SoundManager.Instance.PlayButtonSound());
         }
+        foreach (UnityEngine.UI.Button button in shopButtons)
+        {
+            int id = shopButtons.IndexOf(button);
+            button.onClick.AddListener(() => OnBuySkinClick(id));
+            button.onClick.AddListener(() => SoundManager.Instance.PlayButtonSound());
+        }
         deleteButton.onClick.AddListener(() => SaveSystem.Instance.DeleteSave());
         deleteButton.onClick.AddListener(() => SoundManager.Instance.PlayButtonSound());
         saveButton.onClick.AddListener(() => GameManager.Instance.Save());
@@ -156,6 +180,10 @@ public class GameUIManager : MonoBehaviour
     private void OnBuyClick(int id)
     {
         UpgradeManager.Instance.Upgrade((UpgradeManager.UpgradeType)id);
+    }
+    private void OnBuySkinClick(int id)
+    {
+        ShopManager.Instance.Buy((TileSprite)id);
     }
     public void TurnOnAttackButton()
     {
@@ -171,7 +199,7 @@ public class GameUIManager : MonoBehaviour
         GameManager.Instance.SetCurLvl(lv);
         GameManager.Instance.SetAttack(true);
         GameManager.Instance.SetWin(false);
-        GameManager.Instance.SetTileSprite(TileSprite.Weapon);
+        GameManager.Instance.SetSprite();
         if (GameManager.Instance.GetTut())
         {
             GameManager.Instance.SetTut(false);

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -19,6 +20,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] public Enemy enemy;
     [SerializeField] private bool isAttack = false;
     [SerializeField] private bool isWin = true;
+    [SerializeField] private bool[] isUnlock = new bool[Enum.GetNames(typeof(TileSprite)).Length];
     public bool isTripple = false;
     [SerializeField] private bool isTut = true;
     [SerializeField] NodeTileBase nodeTileBase;
@@ -55,6 +57,7 @@ public class GameManager : MonoBehaviour
         isWin = true;
         isTut = true;
         map = new SaveData.Map();
+        isUnlock = new bool[Enum.GetNames(typeof(TileSprite)).Length];
         enemy = null;
     }
     public void DeleteSave()
@@ -71,6 +74,7 @@ public class GameManager : MonoBehaviour
         isWin = true;
         isTut= true;
         map = new SaveData.Map();
+        isUnlock = new bool[Enum.GetNames(typeof(TileSprite)).Length];
         enemy = null;
     }
     protected virtual void CoinAnim()
@@ -81,10 +85,25 @@ public class GameManager : MonoBehaviour
             latestCoin = Mathf.Lerp(latestCoin, coin, 0.1f);
         }
     }
-    public void SetTileSprite(TileSprite sprite)
+    public void SetIsUnlock(bool[] bools)
     {
-        //tileSprite = sprite;
-        SetSprite();
+        isUnlock = bools;
+    }
+    public bool GetIsUnlockID(int value)
+    {
+        return isUnlock[value];
+    }
+    public void SetIsUnlockID(int value)
+    {
+        isUnlock[value]=true;
+    }
+    public void SetCurrentSprite(TileSprite sprite)
+    {
+        tileSprite = sprite;
+    }
+    public TileSprite GetCurrentSprite()
+    {
+        return tileSprite;
     }
     public void SetSprite()
     {
@@ -235,6 +254,8 @@ public class GameManager : MonoBehaviour
         data.currentTime = System.DateTime.Now;
         data.health = HealthManager.Instance.health;
         data.time = HealthManager.Instance.elapsedTimes;
+        data.isUnlock = isUnlock;
+        data.currentSprite = tileSprite;
         if (enemy != null)
         {
             enemy.AddMap();

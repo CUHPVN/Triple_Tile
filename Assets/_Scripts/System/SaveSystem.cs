@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
@@ -23,6 +25,8 @@ public class SaveData
     public bool isTut = true;
     public int health = 5;
     public int time = 0;
+    public bool[] isUnlock = new bool[Enum.GetNames(typeof(TileSprite)).Length];
+    public TileSprite currentSprite = TileSprite.Weapon;
     public System.DateTime currentTime;
     public Map map;
 }
