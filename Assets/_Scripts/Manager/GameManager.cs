@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
         else Instance = this;
         DontDestroyOnLoad(this.gameObject);
         LoadComponent();
+        Application.targetFrameRate = 60;
     }
     private void Start()
     {
