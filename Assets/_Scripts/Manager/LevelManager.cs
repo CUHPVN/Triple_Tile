@@ -2,8 +2,6 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.Burst.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using static SoundManager;
